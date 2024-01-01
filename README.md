@@ -50,8 +50,9 @@ alpz -f $LAMBDA_FUNCTION_SRC_FILE -p my-package -v 3.10-bookworm
 
 # References and More Reading
 
-* [Building Lambda functions with Python](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python.html) (AWS DOcumentation)
-* [Working with .zip file archives for Python Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html) (AWS DOcumentation)
+* [Building Lambda functions with Python](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python.html) (AWS Documentation)
+* [Working with .zip file archives for Python Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html) (AWS Documentation)
+* [Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) (AWS Documentation)
 
 
 
