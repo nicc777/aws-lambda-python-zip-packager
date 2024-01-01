@@ -106,5 +106,10 @@ docker run --rm \
     -e ENV_PACKAGE_NAME="${package_name}" \
     -e ENV_SRC_FILE_NAME="${python_file_name}" \
     python_lambda_function
+
+find $work_dir/output/ -type f ! -name '*.zip' -delete
+
 echo "DONE - Workdir ${work_dir}/output contains the resulting ZIP file"
+echo
+ls -lahrt $work_dir/output
 

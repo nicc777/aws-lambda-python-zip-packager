@@ -11,5 +11,5 @@ VOLUME ["/data/src", "/data/output", "/data/scripts"]
 ENV ENV_PACKAGE_NAME python_lambda_package
 ENV ENV_SRC_FILE_NAME not-supplied
 
-CMD /data/scripts/container_package_python_lambda_function.sh -f /data/src/$ENV_SRC_FILE_NAME -p $ENV_PACKAGE_NAME
+CMD /data/scripts/container_package_python_lambda_function.sh -f /data/src/$ENV_SRC_FILE_NAME -p $ENV_PACKAGE_NAME && rm -frR /data/output/venv && rm -frR /data/output/package
 
