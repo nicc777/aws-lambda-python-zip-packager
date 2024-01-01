@@ -96,7 +96,7 @@ ls -lahrt ${work_dir} ${work_dir}/src ${work_dir}/scripts ${work_dir}/output
 cd $work_dir
 docker image rm $package_name
 echo "Building Docker Image from directory ${work_dir}"
-docker build -t $package_name --build-arg PACKAGE_NAME=$package_name --build-arg SRC_FILE_NAME=$python_file_name .
+docker build -t $package_name .
 
 cd $OLDPWD
 docker run --rm \

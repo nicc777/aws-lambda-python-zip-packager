@@ -72,7 +72,10 @@ else
     zip ${package_name}.zip `basename ${pyhton_script_path}`
 fi
 
+py_ver=`python3 --version`
+
 echo "DONE"
 echo
 echo "  Pakage File       : ${package_name}.zip"
+echo "  Python Runtime    : ${py_ver}"
 echo
