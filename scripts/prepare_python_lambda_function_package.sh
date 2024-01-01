@@ -105,7 +105,7 @@ docker run --rm \
     -v $work_dir/scripts:/data/scripts \
     -e ENV_PACKAGE_NAME="${package_name}" \
     -e ENV_SRC_FILE_NAME="${python_file_name}" \
-    python_lambda_function
+    $package_name
 
 find $work_dir/output/ -type f ! -name '*.zip' -delete
 

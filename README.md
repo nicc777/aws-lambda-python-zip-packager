@@ -42,6 +42,12 @@ For more command line options run `alpz -h`
 
 The resulting ZIP file can now be uploaded to S3 from where you can deploy your AWS Lambda Function.
 
+A more advanced example that prepares a package with a specific name using the Python 3.10 runtime:
+
+```shell
+alpz -f $LAMBDA_FUNCTION_SRC_FILE -p my-package -v 3.10-bookworm
+```
+
 # References and More Reading
 
 * [Building Lambda functions with Python](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python.html) (AWS DOcumentation)
