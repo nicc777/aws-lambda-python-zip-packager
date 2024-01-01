@@ -29,7 +29,7 @@ python_version="3.12-bookworm"
 docker_template_file="${PWD}/templates/python.Dockerfile"
 container_script="${PWD}/scripts/container_package_python_lambda_function.sh"
 
-while getopts hf:p:v:d: flag
+while getopts hf:p:v:d:s: flag
 do
     case "${flag}" in
         h) display_help=1;;
@@ -37,6 +37,7 @@ do
         p) package_name=${OPTARG};;
         v) python_version=${OPTARG};;
         d) docker_template_file=${OPTARG};;
+        s) container_script=${OPTARG};;
     esac
 done
 
@@ -65,15 +66,17 @@ mkdir -p $work_dir/output
 
 echo "Preparing Python based Lambda Function Package"
 echo
-echo "  Original Python File : ${pyhton_script_path}"
-echo "  Source Directory     : ${lambda_origin_dir}"
-echo "  Work Directory       : ${work_dir}"
-echo "  Docker Template File : ${docker_template_file}"
+echo "  Original Python File  : ${pyhton_script_path}"
+echo "  Source Directory      : ${lambda_origin_dir}"
+echo "  Work Directory        : ${work_dir}"
+echo "  Docker Template File  : ${docker_template_file}"
+echo "  Container Prep Script : ${container_script}" 
 
 echo "  Preparing the docker template for Python version ${python_version}"
 echo
 cp -vf $docker_template_file $work_dir/Dockerfile
 cp -vf $container_script $work_dir/scripts/container_package_python_lambda_function.sh
+chmod 700 $work_dir/scripts/container_package_python_lambda_function.sh
 sed -i "s/__VERSION__/$python_version/g" $work_dir/Dockerfile
 echo "    Docker file ${work_dir}/Dockerfile prepared"
 echo
@@ -82,11 +85,26 @@ echo "  Coptying Python files"
 python_file_name=`basename $pyhton_script_path`
 requirements_file="`dirname ${pyhton_script_path}`/requirements.txt"
 echo "    Checking for the presence of requirements.txt in the same directory as the script: ${requirements_file}"
-cp -vf "$pyhton_script_path" $work_dir/$python_file_name
+cp -vf "$pyhton_script_path" $work_dir/src/$python_file_name
 if test -f $requirements_file; then
-    cp -vf $requirements_file $work_dir/requirements.txt
+    cp -vf $requirements_file $work_dir/src/requirements.txt
 fi
 
+echo "FILES:"
+ls -lahrt ${work_dir} ${work_dir}/src ${work_dir}/scripts ${work_dir}/output
 
+cd $work_dir
+docker image rm $package_name
+echo "Building Docker Image from directory ${work_dir}"
+docker build -t $package_name --build-arg PACKAGE_NAME=$package_name --build-arg SRC_FILE_NAME=$python_file_name .
 
+cd $OLDPWD
+docker run --rm \
+    -v $work_dir/output:/data/output \
+    -v $work_dir/src:/data/src \
+    -v $work_dir/scripts:/data/scripts \
+    -e ENV_PACKAGE_NAME="${package_name}" \
+    -e ENV_SRC_FILE_NAME="${python_file_name}" \
+    python_lambda_function
+echo "DONE - Workdir ${work_dir}/output contains the resulting ZIP file"
 

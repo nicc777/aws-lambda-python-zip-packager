@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+ls -lahrt /data/* /data/src/* /data/scripts/*
+
 help_message () {
     script_name=${0##*/}
     echo "Usage: ${script_name} -f STRING -p STRING [-h]"
@@ -30,12 +32,12 @@ fi
 
 if [ -z "$pyhton_script_path" ]
 then
-      echo "ERROR: When supplying the -f parameter, a STRING value must be provided. Use the -h parameter for help."
+      echo "ERROR: When supplying the -f parameter, a STRING value must be provided. Use the -h parameter for help. pyhton_script_path='${pyhton_script_path}'"
       exit
 fi
 
 if ! test -f $pyhton_script_path; then
-  echo "ERROR: File does not exist."
+  echo "ERROR: File does not exist: ${pyhton_script_path}"
   exit
 fi
 
