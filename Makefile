@@ -8,7 +8,7 @@ install:
 	chmod 755 /usr/lib/alpz/*
 	chmod 644 /usr/share/alpz/*
 
-clean:
+uninstall:
 	rm -frRv /usr/share/alpz
 	rm -frRv /usr/lib/alpz
 	rm -fv /usr/bin/alpz
