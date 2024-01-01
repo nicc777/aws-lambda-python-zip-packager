@@ -52,13 +52,16 @@ alpz -f $LAMBDA_FUNCTION_SRC_FILE -p my-package -v 3.10-bookworm -o /tmp/output.
 cat /tmp/output.json
 
 # Check:
-ls -lahrt /tmp/package_926dccaf47834c7c995b2d90898bc025/output/my-package.zip
+ls -lahrt /tmp/package_701b6afc39af4cb690cfeae01b855f90/output/my-package.zip
 ```
 
 The JSON file generated will look something like this:
 
 ```json
-{"ZipFilePath": "/tmp/package_926dccaf47834c7c995b2d90898bc025/output/my-package.zip"}
+{
+    "ZipFilePath": "/tmp/package_701b6afc39af4cb690cfeae01b855f90/output/my-package.zip", 
+    "WorkDir": "/tmp/package_701b6afc39af4cb690cfeae01b855f90"
+}
 ```
 
 # References and More Reading

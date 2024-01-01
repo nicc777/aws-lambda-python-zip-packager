@@ -117,5 +117,5 @@ echo "DONE - Workdir ${work_dir}/output contains the resulting ZIP file"
 echo
 ls -lahrt $work_dir/output
 
-echo "{\"ZipFilePath\": \"${work_dir}/output/${package_name}.zip\"}" > $final_output_path
+echo "{\"ZipFilePath\": \"${work_dir}/output/${package_name}.zip\", \"WorkDir\": \"${work_dir}\"}" > $final_output_path
 
