@@ -42,10 +42,23 @@ For more command line options run `alpz -h`
 
 The resulting ZIP file can now be uploaded to S3 from where you can deploy your AWS Lambda Function.
 
-A more advanced example that prepares a package with a specific name using the Python 3.10 runtime:
+A more advanced example that prepares a package with a specific name using the Python 3.10 runtime and saving the path to the resulting ZIP file in `/tmp/output.json`:
 
 ```shell
-alpz -f $LAMBDA_FUNCTION_SRC_FILE -p my-package -v 3.10-bookworm
+# Run the command
+alpz -f $LAMBDA_FUNCTION_SRC_FILE -p my-package -v 3.10-bookworm -o /tmp/output.json
+
+# Get the ZIP file from the generated output file:
+cat /tmp/output.json
+
+# Check:
+ls -lahrt /tmp/package_926dccaf47834c7c995b2d90898bc025/output/my-package.zip
+```
+
+The JSON file generated will look something like this:
+
+```json
+{"ZipFilePath": "/tmp/package_926dccaf47834c7c995b2d90898bc025/output/my-package.zip"}
 ```
 
 # References and More Reading

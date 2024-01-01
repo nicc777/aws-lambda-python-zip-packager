@@ -2,21 +2,22 @@
 
 help_message () {
     script_name=${0##*/}
-    echo "Usage: ${script_name} -f STRING [-p STRING] [-v STRING] [-d STRING] [-s STRING] [-h]"
+    echo "Usage: ${script_name} -f PATH [-p NAME] [-v VERSION] [-d PATH] [-s PATH] [-o PATH] [-h]"
     echo
-    echo "  -f STRING   - Path to the Python script to package as AWS Lambda function"
-    echo "  -p STRING   - Package name (without any extensions)"
+    echo "  -f PATH     - Path to the Python script to package as AWS Lambda function"
+    echo "  -p NAME     - Package name (without any extensions)"
     echo "                (default=python_lambda_function)"
-    echo "  -v STRING   - The Desired Python Version (default 3.12-bookworm) - "
+    echo "  -v VERSION  - The Desired Python Version (default 3.12-bookworm) - "
     echo "                Check https://hub.docker.com/_/python"
-    echo "  -d STRING   - The Docker template path. If not supplied, default is"
+    echo "  -d PATH     - The Docker template path. If not supplied, default is"
     echo "                \$PWD/templates/python.Dockerfile - if you run this script not"
     echo "                from the repo directory, please add this parameter with the"
     echo "                location of the template file."
-    echo "  -s STRING   - Path to the container_package_python_lambda_function.sh file"
+    echo "  -s PATH     - Path to the container_package_python_lambda_function.sh file"
     echo "                that is in the orignal repo in the /scripts directory."
     echo "                Default is"
-    echo "                \$PWD/scripts/container_package_python_lambda_function.sh" 
+    echo "                \$PWD/scripts/container_package_python_lambda_function.sh"
+    echo "  -o PATH       Where to send the final JSON output to. Default is STDOUT"
     echo "  -h          - Display help"
     echo
     exit
@@ -28,8 +29,10 @@ package_name="python_lambda_function"
 python_version="3.12-bookworm"
 docker_template_file="/usr/share/alpz/python.Dockerfile"
 container_script="/usr/lib/alpz/container_package_python_lambda_function.sh"
+final_output_path=/dev/stdout
 
-while getopts hf:p:v:d:s: flag
+
+while getopts hf:p:v:d:s:o: flag
 do
     case "${flag}" in
         h) display_help=1;;
@@ -38,6 +41,7 @@ do
         v) python_version=${OPTARG};;
         d) docker_template_file=${OPTARG};;
         s) container_script=${OPTARG};;
+        o) final_output_path=${OPTARG};;
     esac
 done
 
@@ -112,4 +116,6 @@ find $work_dir/output/ -type f ! -name '*.zip' -delete
 echo "DONE - Workdir ${work_dir}/output contains the resulting ZIP file"
 echo
 ls -lahrt $work_dir/output
+
+echo "{\"ZipFilePath\": \"${work_dir}/output/${package_name}.zip\"}" > $final_output_path
 
