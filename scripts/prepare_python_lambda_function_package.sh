@@ -26,8 +26,8 @@ display_help=0
 pyhton_script_path=""
 package_name="python_lambda_function"
 python_version="3.12-bookworm"
-docker_template_file="${PWD}/templates/python.Dockerfile"
-container_script="${PWD}/scripts/container_package_python_lambda_function.sh"
+docker_template_file="/usr/share/alpz/python.Dockerfile"
+container_script="/usr/lib/alpz/container_package_python_lambda_function.sh"
 
 while getopts hf:p:v:d:s: flag
 do
