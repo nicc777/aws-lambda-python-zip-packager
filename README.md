@@ -64,6 +64,34 @@ The JSON file generated will look something like this:
 }
 ```
 
+# What images are available?
+
+To check what options you can pass to the `-v` option, run the following command:
+
+```shell
+curl -s https://registry.hub.docker.com/v2/repositories/library/python/tags\?page_size\=1000 | jq -r ".results[].name" | sort --version-sort | grep "\-bookworm" | grep -v slim
+```
+
+Expect output similar to this:
+
+```text
+3-bookworm
+3.8-bookworm
+3.8.18-bookworm
+3.9-bookworm
+3.9.18-bookworm
+3.10-bookworm
+3.10.13-bookworm
+3.11-bookworm
+3.11.7-bookworm
+3.12-bookworm
+3.12.1-bookworm
+3.13-rc-bookworm
+3.13.0a2-bookworm
+```
+
+From this list, pick a suitable version that is also [supported by AWS](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
+
 # References and More Reading
 
 * [Building Lambda functions with Python](https://docs.aws.amazon.com/lambda/latest/dg/lambda-python.html) (AWS Documentation)
