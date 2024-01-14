@@ -1,4 +1,5 @@
-FROM python:__VERSION__
+ARG IMAGE_TAG=3.12-bookworm
+FROM python:${IMAGE_TAG}
 
 RUN apt update && apt upgrade -y && apt install -y zip 
 

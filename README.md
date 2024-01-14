@@ -42,6 +42,8 @@ For more command line options run `alpz -h`
 
 The resulting ZIP file can now be uploaded to S3 from where you can deploy your AWS Lambda Function.
 
+## Specifying a specific version of Python
+
 A more advanced example that prepares a package with a specific name using the Python 3.10 runtime and saving the path to the resulting ZIP file in `/tmp/output.json`:
 
 ```shell
@@ -62,6 +64,14 @@ The JSON file generated will look something like this:
     "ZipFilePath": "/tmp/package_701b6afc39af4cb690cfeae01b855f90/output/my-package.zip", 
     "WorkDir": "/tmp/package_701b6afc39af4cb690cfeae01b855f90"
 }
+```
+
+## Include Python packages without the presence of a requirements file
+
+The following will create the requirements file, if not present, with packages to include in the archive:
+
+```shell
+alpz -f $LAMBDA_FUNCTION_SRC_FILE -p my-package -v 3.10-bookworm -o /tmp/output.json -r "Twisted fastapi"
 ```
 
 # What images are available?
